@@ -1,3 +1,10 @@
+/*
+ * Author:	Jake Cabrera
+ * Date:	04/17/2018	
+ * Chapter 19 programming assignment
+ * Math Stack
+ */
+
 #include <string>
 #include <iostream>
 #include "MathStack.h"
@@ -5,18 +12,9 @@
 using namespace std;
 
 int main() {
-	string str;
 	MathStack stack = MathStack();
 
-	stack.push(1);
-	stack.push(3);
-	stack.push(2);
-	cout << stack.toString() << endl;
-
-	stack.div();
-
-	cout << stack.toString() << endl;
-
+	string str;
 	getline(cin, str);
 	return 0;
 }
