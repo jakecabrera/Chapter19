@@ -18,5 +18,13 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IntStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="IntStack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
