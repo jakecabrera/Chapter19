@@ -117,9 +117,11 @@
   <ItemGroup>
     <ClCompile Include="IntStack.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MathStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntStack.h" />
+    <ClInclude Include="MathStack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
