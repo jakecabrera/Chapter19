@@ -45,6 +45,15 @@ int main() {
 		case 3:
 			add(stack);
 			break;
+		case 4:
+			sub(stack);
+			break;
+		case 5:
+			mult(stack);
+			break;
+		case 6:
+			div(stack);
+			break;
 		case 7:
 			display(stack);
 			break;
@@ -233,6 +242,106 @@ void add(MathStack &stack) {
 	if (stack.size() >= 2) {
 		stack.add();
 		cout << "The top two integers have been added and replaced with their sum." << endl << endl;
+	}
+	// Not enough elements
+	else {
+		cout << "However, there are not enough elements to perform this operation." << endl;
+		cout << "There must be atleast 2 integers in the stack." << endl << endl;
+	}
+
+	waitToContinue();
+}
+
+// *********************************************************
+// name:		sub
+// called by:	nobody
+// passed:		MathStack
+// returns:		nothing
+// calls:		waitToContinue
+//				MathStack::sub
+//				MathStack::size
+// The sub function subtracts the top two elements on the given
+// stack and replaces them with their sum. High level validation
+// of if there are enough elements in the stack to perform 
+// the operation.
+// *********************************************************
+
+void sub(MathStack &stack) {
+	cout << "You have chosen to subtract the second top integer from the top most integer on the stack." << endl;
+
+	// check if operation can be done
+	if (stack.size() >= 2) {
+		stack.sub();
+		cout << "The top two integers have been subtracted and replaced with their difference." << endl << endl;
+	}
+	// Not enough elements
+	else {
+		cout << "However, there are not enough elements to perform this operation." << endl;
+		cout << "There must be atleast 2 integers in the stack." << endl << endl;
+	}
+
+	waitToContinue();
+}
+
+// *********************************************************
+// name:		mult
+// called by:	nobody
+// passed:		MathStack
+// returns:		nothing
+// calls:		waitToContinue
+//				MathStack::mult
+//				MathStack::size
+// The mult function multiplies the top two elements on the given
+// stack and replaces them with their sum. High level validation
+// of if there are enough elements in the stack to perform 
+// the operation.
+// *********************************************************
+
+void mult(MathStack &stack) {
+	cout << "You have chosen to multiply the top two integers on the stack." << endl;
+
+	// check if operation can be done
+	if (stack.size() >= 2) {
+		stack.mult();
+		cout << "The top two integers have been multiplies and replaced with their product." << endl << endl;
+	}
+	// Not enough elements
+	else {
+		cout << "However, there are not enough elements to perform this operation." << endl;
+		cout << "There must be atleast 2 integers in the stack." << endl << endl;
+	}
+
+	waitToContinue();
+}
+
+// *********************************************************
+// name:		div
+// called by:	nobody
+// passed:		MathStack
+// returns:		nothing
+// calls:		waitToContinue
+//				MathStack::div
+//				MathStack::size
+// The div function divides the top two elements on the given
+// stack and replaces them with their quotient. High level validation
+// of if there are enough elements in the stack to perform 
+// the operation and checks for division by 0.
+// *********************************************************
+
+void div(MathStack &stack) {
+	cout << "You have chosen to divide the top integer by the next integer on the stack." << endl;
+
+	// check if operation can be done
+	if (stack.size() >= 2) {
+		// check for division by zero
+		if (stack.div()) {
+			// Division worked
+			cout << "The top two integers have been divided and replaced with their quotient." << endl << endl;
+		}
+		else {
+			// Division failed
+			cout << "The operation failed due to a division by zero. Please try a different operation first..." << endl << endl;
+		}		
 	}
 	// Not enough elements
 	else {
