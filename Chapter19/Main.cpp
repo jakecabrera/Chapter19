@@ -42,6 +42,9 @@ int main() {
 		case 2:
 			pop(stack);
 			break;
+		case 3:
+			add(stack);
+			break;
 		case 7:
 			display(stack);
 			break;
@@ -185,8 +188,8 @@ void push(MathStack &stack) {
 // passed:		MathStack
 // returns:		nothing
 // calls:		waitToContinue
-//				getInt
 //				MathStack::pop
+//				MathStack::size
 // The pop function takes a stack and removes the last integer
 // in the stack.
 // *********************************************************
@@ -204,6 +207,37 @@ void pop(MathStack &stack) {
 		int x;
 		stack.pop(x);
 		cout << "The integer [" << x << "] has been popped off of the stack." << endl << endl;
+	}
+
+	waitToContinue();
+}
+
+// *********************************************************
+// name:		add
+// called by:	nobody
+// passed:		MathStack
+// returns:		nothing
+// calls:		waitToContinue
+//				MathStack::add
+//				MathStack::size
+// The add function adds the top two elements on the given
+// stack and replaces them with their sum. High level validation
+// of if there are enough elements in the stack to perform 
+// the operation.
+// *********************************************************
+
+void add(MathStack &stack) {
+	cout << "You have chosen to add the top two integers on the stack." << endl;
+
+	// check if operation can be done
+	if (stack.size() >= 2) {
+		stack.add();
+		cout << "The top two integers have been added and replaced with their sum." << endl << endl;
+	}
+	// Not enough elements
+	else {
+		cout << "However, there are not enough elements to perform this operation." << endl;
+		cout << "There must be atleast 2 integers in the stack." << endl << endl;
 	}
 
 	waitToContinue();
