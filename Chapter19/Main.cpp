@@ -16,6 +16,7 @@ using namespace std;
 void displayMenu();
 int getMenuOption();
 int getInt();
+void performMath(MathStack*, bool (MathStack::*operation)(), string);
 void push(MathStack&);
 void pop(MathStack&);
 void add(MathStack&);
@@ -27,6 +28,7 @@ void waitToContinue();
 
 int main() {
 	MathStack stack;
+	MathStack *stackPtr = &stack;
 	bool finished = false;
 	int menuOption;
 
@@ -43,16 +45,16 @@ int main() {
 			pop(stack);
 			break;
 		case 3:
-			add(stack);
+			performMath(stackPtr, &MathStack::add, "You have chosen to add the top two integers on the stack.");
 			break;
 		case 4:
-			sub(stack);
+			performMath(stackPtr, &MathStack::sub, "You have chosen to subtract the second top integer from the top most integer on the stack.");
 			break;
 		case 5:
-			mult(stack);
+			performMath(stackPtr, &MathStack::mult, "You have chosen to multiply the top two integers on the stack.");
 			break;
 		case 6:
-			div(stack);
+			performMath(stackPtr, &MathStack::div, "You have chosen to divide the top integer by the next integer on the stack.");
 			break;
 		case 7:
 			display(stack);
@@ -61,6 +63,8 @@ int main() {
 			finished = true;
 			break;
 		default:
+			cout << "Please select an option that is on the menu..." << endl;
+			waitToContinue();
 			break;
 		}
 	} while (!finished);
@@ -172,6 +176,46 @@ int getInt() {
 }
 
 // *********************************************************
+// name:		performMath
+// called by:	nobody
+// passed:		MathStack as the stack to perform math on
+//				MathStack::*operation as the operation to be 
+//					performed
+//				string as the message to display to the user
+// returns:		nothing
+// calls:		MathStack::add, MathStack::sub, MathStack::mult
+//				MathStack::div, MathStack::size, waitToContinue
+// The performMath function will take a stack and a MathStack 
+// method and apply that method to the stack. 
+// *********************************************************
+
+void performMath(MathStack *stack, bool(MathStack::*operation)(), string msg) {
+	// Let the user know what they are doing
+	cout << msg << endl;
+
+	// check if operation can be done
+	if (stack->size() >= 2) {
+		if ((stack->*operation)()) {
+			// operation successful
+			cout << "The Operation completed successfully!" << endl << endl;
+		}
+		else {
+			// operation failed
+			// right now, the only way an operation could fail is due to
+			// division by zero. That's why the specific failure message
+			cout << "The operation failed due to a division by zero. Please try a different operation first..." << endl << endl;
+		}
+	}
+	// Not enough elements
+	else {
+		cout << "However, there are not enough elements to perform this operation." << endl;
+		cout << "There must be atleast 2 integers in the stack." << endl << endl;
+	}
+
+	waitToContinue();
+}
+
+// *********************************************************
 // name:		push
 // called by:	nobody
 // passed:		MathStack
@@ -216,137 +260,6 @@ void pop(MathStack &stack) {
 		int x;
 		stack.pop(x);
 		cout << "The integer [" << x << "] has been popped off of the stack." << endl << endl;
-	}
-
-	waitToContinue();
-}
-
-// *********************************************************
-// name:		add
-// called by:	nobody
-// passed:		MathStack
-// returns:		nothing
-// calls:		waitToContinue
-//				MathStack::add
-//				MathStack::size
-// The add function adds the top two elements on the given
-// stack and replaces them with their sum. High level validation
-// of if there are enough elements in the stack to perform 
-// the operation.
-// *********************************************************
-
-void add(MathStack &stack) {
-	cout << "You have chosen to add the top two integers on the stack." << endl;
-
-	// check if operation can be done
-	if (stack.size() >= 2) {
-		stack.add();
-		cout << "The top two integers have been added and replaced with their sum." << endl << endl;
-	}
-	// Not enough elements
-	else {
-		cout << "However, there are not enough elements to perform this operation." << endl;
-		cout << "There must be atleast 2 integers in the stack." << endl << endl;
-	}
-
-	waitToContinue();
-}
-
-// *********************************************************
-// name:		sub
-// called by:	nobody
-// passed:		MathStack
-// returns:		nothing
-// calls:		waitToContinue
-//				MathStack::sub
-//				MathStack::size
-// The sub function subtracts the top two elements on the given
-// stack and replaces them with their sum. High level validation
-// of if there are enough elements in the stack to perform 
-// the operation.
-// *********************************************************
-
-void sub(MathStack &stack) {
-	cout << "You have chosen to subtract the second top integer from the top most integer on the stack." << endl;
-
-	// check if operation can be done
-	if (stack.size() >= 2) {
-		stack.sub();
-		cout << "The top two integers have been subtracted and replaced with their difference." << endl << endl;
-	}
-	// Not enough elements
-	else {
-		cout << "However, there are not enough elements to perform this operation." << endl;
-		cout << "There must be atleast 2 integers in the stack." << endl << endl;
-	}
-
-	waitToContinue();
-}
-
-// *********************************************************
-// name:		mult
-// called by:	nobody
-// passed:		MathStack
-// returns:		nothing
-// calls:		waitToContinue
-//				MathStack::mult
-//				MathStack::size
-// The mult function multiplies the top two elements on the given
-// stack and replaces them with their sum. High level validation
-// of if there are enough elements in the stack to perform 
-// the operation.
-// *********************************************************
-
-void mult(MathStack &stack) {
-	cout << "You have chosen to multiply the top two integers on the stack." << endl;
-
-	// check if operation can be done
-	if (stack.size() >= 2) {
-		stack.mult();
-		cout << "The top two integers have been multiplies and replaced with their product." << endl << endl;
-	}
-	// Not enough elements
-	else {
-		cout << "However, there are not enough elements to perform this operation." << endl;
-		cout << "There must be atleast 2 integers in the stack." << endl << endl;
-	}
-
-	waitToContinue();
-}
-
-// *********************************************************
-// name:		div
-// called by:	nobody
-// passed:		MathStack
-// returns:		nothing
-// calls:		waitToContinue
-//				MathStack::div
-//				MathStack::size
-// The div function divides the top two elements on the given
-// stack and replaces them with their quotient. High level validation
-// of if there are enough elements in the stack to perform 
-// the operation and checks for division by 0.
-// *********************************************************
-
-void div(MathStack &stack) {
-	cout << "You have chosen to divide the top integer by the next integer on the stack." << endl;
-
-	// check if operation can be done
-	if (stack.size() >= 2) {
-		// check for division by zero
-		if (stack.div()) {
-			// Division worked
-			cout << "The top two integers have been divided and replaced with their quotient." << endl << endl;
-		}
-		else {
-			// Division failed
-			cout << "The operation failed due to a division by zero. Please try a different operation first..." << endl << endl;
-		}		
-	}
-	// Not enough elements
-	else {
-		cout << "However, there are not enough elements to perform this operation." << endl;
-		cout << "There must be atleast 2 integers in the stack." << endl << endl;
 	}
 
 	waitToContinue();
