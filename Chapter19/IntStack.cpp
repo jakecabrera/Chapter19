@@ -68,11 +68,14 @@ void IntStack::pop(int &var) {
 		// Get last node's value
 		var = top->value;
 
+		// If the stack only has one item, set the top and bottom to point
+		// at the nullptr position
 		if (size() == 1) {
 			delete top;
 			top = nullptr;
 			bottom = nullptr;
 		}
+		// stack contains more than 1 element
 		else {
 			// Move the tail back one element and delete the old last
 			top = top->lower;
@@ -80,6 +83,7 @@ void IntStack::pop(int &var) {
 			top->upper = nullptr;
 		}
 		
+		// Update number of elements in the list
 		numElements--;
 	}
 	// Stack is empty
@@ -115,7 +119,6 @@ int IntStack::size() {
 // *********************************************************
 
 bool IntStack::isEmpty() {
-	// return is the stack has 0 elements and that tail is not set.
 	return (numElements == 0);
 }
 

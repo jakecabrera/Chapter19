@@ -17,18 +17,13 @@ void displayMenu();
 int getMenuOption();
 int getInt();
 void performMath(MathStack*, bool (MathStack::*operation)(), string);
-void push(MathStack&);
-void pop(MathStack&);
-void add(MathStack&);
-void sub(MathStack&);
-void mult(MathStack&);
-void div(MathStack&);
-void display(MathStack&);
+void push(MathStack*);
+void pop(MathStack*);
+void display(MathStack*);
 void waitToContinue();
 
 int main() {
-	MathStack stack;
-	MathStack *stackPtr = &stack;
+	MathStack *stack = new MathStack();
 	bool finished = false;
 	int menuOption;
 
@@ -45,16 +40,16 @@ int main() {
 			pop(stack);
 			break;
 		case 3:
-			performMath(stackPtr, &MathStack::add, "You have chosen to add the top two integers on the stack.");
+			performMath(stack, &MathStack::add, "You have chosen to add the top two integers on the stack.");
 			break;
 		case 4:
-			performMath(stackPtr, &MathStack::sub, "You have chosen to subtract the second top integer from the top most integer on the stack.");
+			performMath(stack, &MathStack::sub, "You have chosen to subtract the second top integer from the top most integer on the stack.");
 			break;
 		case 5:
-			performMath(stackPtr, &MathStack::mult, "You have chosen to multiply the top two integers on the stack.");
+			performMath(stack, &MathStack::mult, "You have chosen to multiply the top two integers on the stack.");
 			break;
 		case 6:
-			performMath(stackPtr, &MathStack::div, "You have chosen to divide the top integer by the next integer on the stack.");
+			performMath(stack, &MathStack::div, "You have chosen to divide the top integer by the next integer on the stack.");
 			break;
 		case 7:
 			display(stack);
@@ -73,6 +68,7 @@ int main() {
 
 	string str;
 	getline(cin, str);
+	delete stack;
 	return 0;
 }
 
@@ -156,15 +152,20 @@ int getInt() {
 	int x;
 	bool validInput = false;
 
+	// Keep asking for valid input until received
 	do {
 		cout << "Please enter an integer: " << flush;
 		getline(cin, input);
 
+		// Try to convert input to an integer
 		try
 		{
 			x = stoi(input);
+
+			// If we got this far then we have valid input
 			validInput = true;
 		}
+		// Input is not able to be made an integer
 		catch (const std::exception&)
 		{
 			cout << "ERROR! Input must be an integer. Press [ENTER] to try again..." << endl << endl;
@@ -195,6 +196,7 @@ void performMath(MathStack *stack, bool(MathStack::*operation)(), string msg) {
 
 	// check if operation can be done
 	if (stack->size() >= 2) {
+		// Perform the operation and check if it was successful
 		if ((stack->*operation)()) {
 			// operation successful
 			cout << "The Operation completed successfully!" << endl << endl;
@@ -227,10 +229,10 @@ void performMath(MathStack *stack, bool(MathStack::*operation)(), string msg) {
 // user and pushes the integer on to the top of the stack
 // *********************************************************
 
-void push(MathStack &stack) {
+void push(MathStack *stack) {
 	cout << "You have chosen to push an integer onto the stack." << endl;
 	int x = getInt();
-	stack.push(x);
+	stack->push(x);
 	cout << "The integer [" << x << "] has been pushed onto the stack." << endl << endl;
 	waitToContinue();
 }
@@ -242,23 +244,23 @@ void push(MathStack &stack) {
 // returns:		nothing
 // calls:		waitToContinue
 //				MathStack::pop
-//				MathStack::size
+//				MathStack::isEmpty
 // The pop function takes a stack and removes the last integer
 // in the stack.
 // *********************************************************
 
-void pop(MathStack &stack) {
+void pop(MathStack *stack) {
 	cout << "You have chosen to pop an integer off of the stack." << endl;
 
 	// check if there is anything to pop off in the stack
-	if (stack.size() == 0) {
+	if (stack->isEmpty()) {
 		cout << "However, the stack is empty and there is nothing to pop off of the stack..." << endl << endl;
 	}
 	else {
 		// There are elements in the stack
 		// Pop off the last one and let the user know
 		int x;
-		stack.pop(x);
+		stack->pop(x);
 		cout << "The integer [" << x << "] has been popped off of the stack." << endl << endl;
 	}
 
@@ -268,7 +270,7 @@ void pop(MathStack &stack) {
 // *********************************************************
 // name:		display
 // called by:	nobody
-// passed:		nothing
+// passed:		MathStack
 // returns:		nothing
 // calls:		waitToContinue, 
 //				MathStack::toString
@@ -276,9 +278,9 @@ void pop(MathStack &stack) {
 // to the screen.
 // *********************************************************
 
-void display(MathStack &stack) {
+void display(MathStack *stack) {
 	cout << "Below is the contents of the stack, displayed horizontally with the top being on the right side:" << endl;
-	cout << stack.toString() << endl << endl;
+	cout << stack->toString() << endl << endl;
 
 	waitToContinue();
 }

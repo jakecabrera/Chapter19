@@ -25,8 +25,8 @@ public:
 class IntStack
 {
 private:
-	IntStackNode *bottom;
-	IntStackNode *top;
+	IntStackNode *bottom; // Oldest element in the stack
+	IntStackNode *top; // Most recent element in the stack
 	int numElements = 0;
 public:
 	// Constructor
