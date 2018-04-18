@@ -8,11 +8,11 @@ IntStack::~IntStack()
 	IntStackNode *nodePtr;
 	IntStackNode *nextNode;
 
-	nodePtr = bottom;
+	nodePtr = top;
 
 	// Delete all nodes in the stack
 	while (nodePtr) {
-		nextNode = nodePtr->upper;
+		nextNode = nodePtr->lower;
 		delete nodePtr;
 		nodePtr = nextNode;
 	}
