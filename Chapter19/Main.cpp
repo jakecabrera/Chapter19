@@ -7,7 +7,6 @@
 
 #include <string>
 #include <iostream>
-#include <iomanip>
 #include "MathStack.h"
 
 using namespace std;
@@ -16,7 +15,7 @@ using namespace std;
 void displayMenu();
 int getMenuOption();
 int getInt();
-void performMath(MathStack*, bool (MathStack::*operation)(), string);
+void performMath(MathStack*, bool (MathStack::*)(), string);
 void push(MathStack*);
 void pop(MathStack*);
 void display(MathStack*);

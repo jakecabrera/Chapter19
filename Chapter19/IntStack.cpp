@@ -37,14 +37,13 @@ void IntStack::push(int val) {
 	if (!isEmpty()) {
 		// Add node to the top of the stack
 		newNode->lower = top;
-		top->upper = newNode;
 
 		// Point stack top to the new node
 		top = newNode;
 	}
 	// Else, the stack is empty, make the new node the first node
 	else {
-		bottom = top = newNode;
+		top = newNode;
 	}
 
 	numElements++;
@@ -73,14 +72,13 @@ void IntStack::pop(int &var) {
 		if (size() == 1) {
 			delete top;
 			top = nullptr;
-			bottom = nullptr;
 		}
 		// stack contains more than 1 element
 		else {
 			// Move the tail back one element and delete the old last
+			IntStackNode *nodePtr = top;
 			top = top->lower;
-			delete top->upper;
-			top->upper = nullptr;
+			delete nodePtr;
 		}
 		
 		// Update number of elements in the list
@@ -135,12 +133,12 @@ bool IntStack::isEmpty() {
 
 string IntStack::toString() {
 	string str = "";
-	IntStackNode *nodePtr = bottom;
+	IntStackNode *nodePtr = top;
 
 	// Add all nodes to the string
 	while (nodePtr) {
-		str += "[" + to_string(nodePtr->value) + "] ";
-		nodePtr = nodePtr->upper;
+		str = "[" + to_string(nodePtr->value) + "] " + str;
+		nodePtr = nodePtr->lower;
 	}
 
 	// Return string containing all nodes
