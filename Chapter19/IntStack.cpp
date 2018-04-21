@@ -45,8 +45,6 @@ void IntStack::push(int val) {
 	else {
 		top = newNode;
 	}
-
-	numElements++;
 }
 
 // *********************************************************
@@ -80,9 +78,6 @@ void IntStack::pop(int &var) {
 			top = top->lower;
 			delete nodePtr;
 		}
-		
-		// Update number of elements in the list
-		numElements--;
 	}
 	// Stack is empty
 	else {
@@ -102,8 +97,11 @@ void IntStack::pop(int &var) {
 // The size function returns the count of elements in the stack.
 // *********************************************************
 
-int IntStack::size() {
-	return numElements;
+int IntStack::size() const {
+	IntStackNode *nodePtr = top;
+	int count;
+	for (count = 0; nodePtr; count++) nodePtr = nodePtr->lower;
+	return count;
 }
 
 // *********************************************************
@@ -116,8 +114,8 @@ int IntStack::size() {
 // stack and returns if the stack is empty or not.
 // *********************************************************
 
-bool IntStack::isEmpty() {
-	return (numElements == 0);
+bool IntStack::isEmpty() const {
+	return !top;
 }
 
 // *********************************************************
@@ -131,7 +129,7 @@ bool IntStack::isEmpty() {
 // from first in to last in.
 // *********************************************************
 
-string IntStack::toString() {
+string IntStack::toString() const {
 	string str = "";
 	IntStackNode *nodePtr = top;
 

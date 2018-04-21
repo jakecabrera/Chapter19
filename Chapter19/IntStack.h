@@ -9,7 +9,7 @@ class IntStackNode
 {
 public:
 	int value;
-	IntStackNode *lower; // To point to the node before itself
+	IntStackNode *lower = nullptr; // To point to the node before itself
 
 	// Constructor
 	// No default constructor because our node NEEDS a value
@@ -22,7 +22,6 @@ class IntStack
 {
 private:
 	IntStackNode *top; // Most recent element in the stack
-	int numElements = 0;
 public:
 	// Constructor
 	IntStack() {
@@ -35,7 +34,7 @@ public:
 	// Stack Operations
 	void push(int);
 	void pop(int&);
-	bool isEmpty();
-	int size();
-	string toString();
+	bool isEmpty() const;
+	int size() const;
+	string toString() const;
 };
