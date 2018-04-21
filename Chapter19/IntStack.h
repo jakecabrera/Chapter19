@@ -9,12 +9,13 @@ class IntStackNode
 {
 public:
 	int value;
-	IntStackNode *lower = nullptr; // To point to the node before itself
+	IntStackNode *lower; // To point to the node before itself
 
 	// Constructor
 	// No default constructor because our node NEEDS a value
 	IntStackNode(int val) {
 		value = val;
+		lower = nullptr;
 	}
 };
 

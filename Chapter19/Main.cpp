@@ -7,6 +7,7 @@
 
 #include <string>
 #include <iostream>
+#include <regex>
 #include "MathStack.h"
 
 using namespace std;
@@ -20,6 +21,7 @@ void push(MathStack*);
 void pop(MathStack*);
 void display(MathStack*);
 void waitToContinue();
+void showErrorMessage(string msg);
 
 int main() {
 	MathStack *stack = new MathStack();
@@ -38,16 +40,16 @@ int main() {
 		case 2:
 			pop(stack);
 			break;
-		case 3:
+		case 3: // Addition
 			performMath(stack, &MathStack::add, "You have chosen to add the top two integers on the stack.");
 			break;
-		case 4:
+		case 4: // Subtraction
 			performMath(stack, &MathStack::sub, "You have chosen to subtract the second top integer from the top most integer on the stack.");
 			break;
-		case 5:
+		case 5: // Multiplication
 			performMath(stack, &MathStack::mult, "You have chosen to multiply the top two integers on the stack.");
 			break;
-		case 6:
+		case 6: // Division
 			performMath(stack, &MathStack::div, "You have chosen to divide the top integer by the next integer on the stack.");
 			break;
 		case 7:
@@ -156,19 +158,24 @@ int getInt() {
 		cout << "Please enter an integer: " << flush;
 		getline(cin, input);
 
-		// Try to convert input to an integer
-		try
-		{
-			x = stoi(input);
-
-			// If we got this far then we have valid input
-			validInput = true;
+		// Validate input as an integer
+		if (regex_match(input, regex("\\d+"))) {
+			try
+			{
+				// Input is verified to be just numbers
+				// Let's see if it will fit in an int variable
+				x = stoi(input);
+				validInput = true;
+			}
+			catch (const std::out_of_range&) {
+				showErrorMessage("Input is too large to be an integer.");
+			}
+			catch (const std::exception&)
+			{
+				showErrorMessage("Something unexpected happened.");
+			}
 		}
-		// Input is not able to be made an integer
-		catch (const std::exception&)
-		{
-			cout << "ERROR! Input must be an integer. Press [ENTER] to try again..." << endl << endl;
-		}
+		else showErrorMessage("Input must be an integer.");
 	} while (!validInput);
 
 	cout << endl;
@@ -299,4 +306,8 @@ void waitToContinue() {
 	cout << "Press [ENTER] to continue...";
 	getline(cin, tmp);
 	cout << endl;
+}
+
+void showErrorMessage(string msg) {
+	cout << "ERROR! " << msg << " Please try again..." << endl << endl;
 }
