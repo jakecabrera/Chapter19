@@ -37,17 +37,14 @@ void IntStack::push(int val) {
 	if (!isEmpty()) {
 		// Add node to the top of the stack
 		newNode->lower = top;
-		top->upper = newNode;
 
 		// Point stack top to the new node
 		top = newNode;
 	}
 	// Else, the stack is empty, make the new node the first node
 	else {
-		bottom = top = newNode;
+		top = newNode;
 	}
-
-	numElements++;
 }
 
 // *********************************************************
@@ -68,19 +65,19 @@ void IntStack::pop(int &var) {
 		// Get last node's value
 		var = top->value;
 
+		// If the stack only has one item, set the top and bottom to point
+		// at the nullptr position
 		if (size() == 1) {
 			delete top;
 			top = nullptr;
-			bottom = nullptr;
 		}
+		// stack contains more than 1 element
 		else {
 			// Move the tail back one element and delete the old last
+			IntStackNode *nodePtr = top;
 			top = top->lower;
-			delete top->upper;
-			top->upper = nullptr;
+			delete nodePtr;
 		}
-		
-		numElements--;
 	}
 	// Stack is empty
 	else {
@@ -100,8 +97,11 @@ void IntStack::pop(int &var) {
 // The size function returns the count of elements in the stack.
 // *********************************************************
 
-int IntStack::size() {
-	return numElements;
+int IntStack::size() const {
+	IntStackNode *nodePtr = top;
+	int count;
+	for (count = 0; nodePtr; count++) nodePtr = nodePtr->lower;
+	return count;
 }
 
 // *********************************************************
@@ -114,9 +114,8 @@ int IntStack::size() {
 // stack and returns if the stack is empty or not.
 // *********************************************************
 
-bool IntStack::isEmpty() {
-	// return is the stack has 0 elements and that tail is not set.
-	return (numElements == 0);
+bool IntStack::isEmpty() const {
+	return !top;
 }
 
 // *********************************************************
@@ -130,14 +129,14 @@ bool IntStack::isEmpty() {
 // from first in to last in.
 // *********************************************************
 
-string IntStack::toString() {
+string IntStack::toString() const {
 	string str = "";
-	IntStackNode *nodePtr = bottom;
+	IntStackNode *nodePtr = top;
 
 	// Add all nodes to the string
 	while (nodePtr) {
-		str += "[" + to_string(nodePtr->value) + "] ";
-		nodePtr = nodePtr->upper;
+		str = "[" + to_string(nodePtr->value) + "] " + str;
+		nodePtr = nodePtr->lower;
 	}
 
 	// Return string containing all nodes

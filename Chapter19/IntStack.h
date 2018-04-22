@@ -9,30 +9,24 @@ class IntStackNode
 {
 public:
 	int value;
-	// I decided to name these two lower and upper as opposed to
-	// prev and next because I visualize the stack like plates
-	// in a cafeteria.
-	IntStackNode *lower;
-	IntStackNode *upper;
+	IntStackNode *lower; // To point to the node before itself
 
 	// Constructor
 	// No default constructor because our node NEEDS a value
 	IntStackNode(int val) {
 		value = val;
+		lower = nullptr;
 	}
 };
 
 class IntStack
 {
 private:
-	IntStackNode *bottom;
-	IntStackNode *top;
-	int numElements = 0;
+	IntStackNode *top; // Most recent element in the stack
 public:
 	// Constructor
 	IntStack() {
 		top = nullptr;
-		bottom = nullptr;
 	}
 
 	// Destructor
@@ -41,7 +35,7 @@ public:
 	// Stack Operations
 	void push(int);
 	void pop(int&);
-	bool isEmpty();
-	int size();
-	string toString();
+	bool isEmpty() const;
+	int size() const;
+	string toString() const;
 };
