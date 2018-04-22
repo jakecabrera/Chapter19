@@ -119,19 +119,21 @@ int getMenuOption() {
 		cout << "Enter a menu option by number: ";
 		getline(cin, input);
 
-		try
-		{
-			// Get an integer from the input or die trying
-			option = stoi(input);
+		// Validate input as an integer
+		if (regex_match(input, regex("0*[1-8]{1}"))) {
+			try
+			{
+				// Input is verified to be a number 1-8
+				option = stoi(input);
+				validInput = true;
+			}
+			catch (const std::exception&)
+			{
+				showErrorMessage("Something unexpected happened.");
+			}
+		}
 
-			// Validate integer as a valid index
-			if (option >= 1 && option <= 8) validInput = true;
-			else cout << "ERROR! Input an integer 1 through 8..." << endl << endl;
-		}
-		catch (...) // Input was not able to be put into an integer
-		{
-			cout << "ERROR! Input must be an integer 1 through 8. Please try again..." << endl << endl;
-		}
+		if (!validInput) showErrorMessage("Input must be an integer 1 through 8.");
 	} while (!validInput);
 
 	cout << endl;
@@ -307,6 +309,16 @@ void waitToContinue() {
 	getline(cin, tmp);
 	cout << endl;
 }
+
+// *********************************************************
+// name:		showErrorMessage
+// called by:	getInt, getMenuOption
+// passed:		string as reason of error
+// returns:		nothing
+// calls:		nobody
+// The showErrorMessage function prints to console an error
+// and it's reason for being there.
+// *********************************************************
 
 void showErrorMessage(string msg) {
 	cout << "ERROR! " << msg << " Please try again..." << endl << endl;
